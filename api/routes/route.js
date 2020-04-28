@@ -1,6 +1,7 @@
 'use strict';
 const testController = require('../controllers/controller');
 const cache = require('../middlewares/cache');
+const lruCache = require('../middlewares/lruCacheImplementation');
 
 module.exports = function (app) {
   const asyncMiddleware = fn => (req, res, next) => {
@@ -32,6 +33,19 @@ module.exports = function (app) {
     req.dataobject = resp
     next();
   }), cache.after);
+
+
+  app.get('/getctdata-lru', lruCache.before, asyncMiddleware(async (req, res, next) => {
+    let resp = await testController.getctdata(req);
+    req.dataobject = resp
+    next();
+  }), lruCache.after);
+
+  app.post('/getctdata-lru', lruCache.before, asyncMiddleware(async (req, res, next) => {
+    let resp = await testController.getctdata(req);
+    req.dataobject = resp
+    next();
+  }), lruCache.after);
 
   app.get('/testdata', cache.before, asyncMiddleware(async (req, res, next) => {
     req.dataobject = "abc"
