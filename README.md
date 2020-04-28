@@ -1,5 +1,5 @@
 # node-cache
-this is node cache POC application with node.js and DB2
+this is node cache and LRU cache POC application with node.js and DB2
 
 ### .env format
 create .env file according to following format
